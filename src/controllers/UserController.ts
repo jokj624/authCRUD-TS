@@ -20,10 +20,10 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
     check("password", "Please enter a password with 6 or more characters").isLength({ min: 6 });
     const { name, email, password } : IUserInputDTO = req.body;
     try{
-        // const errors = validationResult(req.body);
-        // if(!errors.isEmpty()){
-        //     return res.status(400).json({ errors: errors.array() });
-        // }
+        const errors = validationResult(req.body);
+        if(!errors.isEmpty()){
+            return res.status(400).json({ errors: errors.array() });
+        }
 
         const foundUser = await UserService.findEmail({ email });
         if(foundUser)   errorGenerator({ statusCode: 409 });  // 이미 가입한 유저
