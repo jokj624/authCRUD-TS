@@ -1,15 +1,17 @@
-import express from "express"; 
-const app = express(); 
+import express, { Express } from "express"; 
+import routes from './api/route';
+import generalErrorHandler from "./errors/generalErrorHandler";
+const app : Express = express(); 
 import connectDB from "./Loaders/db";
 
 // Connect Database
 connectDB();
 
+app.use(express.urlencoded());
 app.use(express.json()); 
 
-// Define Routes
-//app.use("/api/users", require("./api/users")); 
-
+app.use(routes);
+app.use(generalErrorHandler);
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
